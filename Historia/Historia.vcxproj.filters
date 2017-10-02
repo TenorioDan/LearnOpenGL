@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\Vertex Shaders">
+      <UniqueIdentifier>{208a949b-0de9-439f-b925-644191e30edc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Fragment Shaders">
+      <UniqueIdentifier>{9403ad11-df93-46ca-b0e0-79c72a824a18}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Super_Bible_Chapter_1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tutorial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GL_Helpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Super_Bible_Chapter_5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vmath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Super_Bible_Chapter_5_Textures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transformations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\intro_pipeline\fragment_shader_1.frag">
+      <Filter>Resource Files\Fragment Shaders</Filter>
+    </None>
+    <None Include="Shaders\intro_pipeline\tess_control_shader_1.glsl" />
+    <None Include="Shaders\intro_pipeline\tess_eval_shader_1.glsl" />
+    <None Include="Shaders\intro_pipeline\geom_shader_1.geom" />
+    <None Include="Shaders\intro_pipeline\fragment_shader_2.frag" />
+    <None Include="Shaders\intro_pipeline\vertex_shader_2.vert" />
+    <None Include="Shaders\intro_pipeline\fragment_shader_3.frag" />
+    <None Include="Shaders\intro_pipeline\vertex_shader_3.vert" />
+    <None Include="Shaders\Chapter_5\vertex_shader_1.vert" />
+    <None Include="Shaders\Chapter_5\fragment_shader_1.frag" />
+    <None Include="Shaders\Chapter_5\vertex_shader_2.vert" />
+    <None Include="Shaders\Chapter_5\fragment_shader_2.frag" />
+    <None Include="Shaders\Chapter_5\vertex_shader_3.vert" />
+    <None Include="Shaders\Chapter_5\fragment_shader_3.frag" />
+    <None Include="Shaders\Chapter_5\fragment_shader_simple.frag" />
+    <None Include="Shaders\LearnOpenGL\fragment_shader_texture_1.frag" />
+    <None Include="Shaders\LearnOpenGL\vertex_shader_texture_1.vert" />
+    <None Include="Shaders\LearnOpenGL\CoordinateSystems\vertex_shader_1.vert" />
+    <None Include="Shaders\LearnOpenGL\CoordinateSystems\fragment_shader.frag" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Shaders\intro_pipeline\vertex_shader_1.vert" />
+    <Text Include="Shaders\LearnOpenGL\Transformations\vertex_shader_1.vert" />
+    <Text Include="Shaders\LearnOpenGL\Transformations\fragment_shader_1.frag" />
+  </ItemGroup>
+</Project>
