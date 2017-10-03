@@ -4,6 +4,8 @@
 #include "Super_Bible_Chapter_5_Textures.h"
 #include "Transformations.h"
 
+#include "InputManager.h"
+
 #include <iostream>
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -24,6 +26,7 @@ GLuint WINDOW_HEIGHT;
 SDL_Window* gWindow = NULL;
 SDL_GLContext gContext;
 Tutorial* currentTutorial;
+InputManager* inputManager;
 
 bool init()
 {
@@ -148,6 +151,8 @@ int main(int argc, char* args[])
 		bool quit = false;
 		SDL_Event e;
 		
+		inputManager = InputManager::getInstance();
+
 		SDL_StartTextInput();
 		//currentTutorial = new Super_Bible_Chapter_1();
 		//currentTutorial = new Super_Bible_Chapter_5();
@@ -163,15 +168,14 @@ int main(int argc, char* args[])
 				{
 					quit = true;
 				}
-				else if (e.type == SDL_TEXTINPUT)
+				else if (e.type == SDL_KEYDOWN)
 				{
-					int x = 0, y = 0;
-					SDL_GetMouseState(&x, &y);		
-					// handleKeys(e.text.text[0], x, y);
+					inputManager->receiveKeyboardInput(e.key.keysym.sym);
 				}
 			}
-
-			// Render
+			
+			inputManager->processInput();
+			update();
 			render();
 
 			// Update Screen
