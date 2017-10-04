@@ -7,7 +7,7 @@ class Tutorial
 {
 public:
 	virtual void init() = 0;
-	virtual void update() = 0;
+	virtual void update(double currentTime) = 0;
 
 	virtual void render(double currentTime)
 	{

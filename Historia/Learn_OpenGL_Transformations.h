@@ -2,10 +2,14 @@
 
 #include "Tutorial.h"
 #include "stb_image.h"
+#include "Shader.h"
+#include "InputManager.h"
+#include "Command.h"
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "Shader.h"
+#include <SDL.h>
 
 class Learn_Open_GL_Transformations : public Tutorial
 {
@@ -74,13 +78,20 @@ public:
 		loadTexture("media/textures/awesomeface.png", GL_RGBA);
 
 		// Coordinate Transformation Stuff
-		model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0, 0.0f));
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-		projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
+		_model = glm::rotate(_model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0, 0.0f));
+		_view = glm::translate(_view, glm::vec3(0.0f, 0.0f, -3.0f));
+		_projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
 	}
 
 	void init()
 	{
+		// Assign key commands to the input manager
+		_inputManager = InputManager::getInstance();
+		_inputManager->mapKey(SDLK_w, new MoveCommand(this, MoveCommand::WALK,	  1));
+		_inputManager->mapKey(SDLK_a, new MoveCommand(this, MoveCommand::STRAFE, -1));
+		_inputManager->mapKey(SDLK_s, new MoveCommand(this, MoveCommand::WALK,	 -1));		
+		_inputManager->mapKey(SDLK_d, new MoveCommand(this, MoveCommand::STRAFE,  1));
+
 		glEnable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -169,8 +180,8 @@ public:
 
 		// Coordinate Transformation Stuff
 		//model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0, 0.0f));
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-		projection = glm::perspective(glm::radians(75.0f), 1.0f, 0.1f, 100.0f);
+		//_view = glm::translate(_view, glm::vec3(0.0f, 0.0f, -3.0f));
+		_projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
 
 		
 		cubePositions[0] = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -184,6 +195,24 @@ public:
 		cubePositions[8] = glm::vec3(1.5f, 0.2f, -1.5f);
 		cubePositions[9] = glm::vec3(-1.3f, 1.0f, -1.5f);
 
+		//// Gram-Schmidt a camera's orientation
+		//_upVector = glm::vec3(0.0f, 1.0f, 0.0f);
+		//_cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+		//_cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
+		//_cameraDirection = glm::normalize(_cameraPos - _cameraTarget);
+		//_cameraRight = glm::normalize(glm::cross(_upVector, _cameraDirection));
+		//_cameraUp = glm::normalize(glm::cross(_cameraDirection, _cameraRight));
+		//_cameraFront = glm::vec3(0.0f, 1.0f, 0.0f);
+		//
+		//_view = glm::lookAt(
+		//	glm::vec3(0.0f, 0.0f, 3.0f),
+		//	glm::vec3(0.0f, 0.0f, 0.0f),
+		//	glm::vec3(0.0f, 1.0f, 0.0f)
+		//);
+
+		_cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+		_cameraFront = glm::vec3(0.0, 0.0, -1.0f);
+		_cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	}
 
 	void loadTexture(const char* path, GLint colorType)
@@ -200,9 +229,12 @@ public:
 		stbi_image_free(data);
 	}
 
-	void update()
+	void update(double currentTime)
 	{
-
+		_previousTime = _currentTime;
+		_currentTime = currentTime;
+		_deltaTime = _currentTime - _previousTime;
+		_cameraSpeed = 5.f * _deltaTime;
 	}
 
 	void render(double currentTime)
@@ -222,28 +254,22 @@ public:
 
 		// Transformations
 		glm::mat4 trans;
-		//trans = glm::translate(trans, glm::vec3(1.0f, 1.0f, 0.0f));
-		/*trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0f));
-		trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5f));*/
-		
-		// Transformations
-		/*trans = glm::translate(trans, glm::vec3(0.0f, -sin(currentTime) * 0.5f, 0.0f));
-		trans = glm::rotate(trans, (float)currentTime, glm::vec3(0.0f, 1.0f, 0.0f));
-		trans = glm::rotate(trans, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));
-		glUniformMatrix4fv(glGetUniformLocation(_shader->Program(), "transform"), 1, GL_FALSE, glm::value_ptr(trans));*/
 
 		// Coordinate Systems
 		int modelLocation = glGetUniformLocation(_shader->Program(), "model");
 		int viewLocation = glGetUniformLocation(_shader->Program(), "view");
 		int projectionLocation = glGetUniformLocation(_shader->Program(), "projection");
 
+		// Rotate the camera in a circle aroudn the objects
+		//GLfloat radius = 5.0f;
+		/*GLfloat camX = sin(currentTime) * radius;
+		GLfloat camZ = cos(currentTime) * radius;
+		_view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0, 1.0, 0.0));*/
 
+		_view = glm::lookAt(_cameraPos, _cameraPos + _cameraFront, _cameraUp);
 
-		//model = glm::rotate(model, ((float)currentTime/1000.0f * glm::radians(50.0f)), glm::vec3(0.5f, 1.0f, 0.0f));
-
-		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
+		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(_view));
+		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(_projection));
 
 		glBindVertexArray(_vao);
 		// Use Draw Elements when using a element buffer object
@@ -271,10 +297,74 @@ public:
 		//glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
 
+	void moveCameraStrafe(GLfloat direction)
+	{
+		_cameraPos += glm::normalize(glm::cross(_cameraFront, _cameraUp)) * _cameraSpeed * direction;
+	}
+
+	void moveCameraWalk(GLfloat direction)
+	{
+		_cameraPos += _cameraSpeed * _cameraFront * direction;
+	}
+
 private:
+	InputManager* _inputManager;
+	GLfloat _currentTime = 0.0;
+	GLfloat _previousTime = 0.0;
+	GLfloat _deltaTime = 0.0;
+	GLfloat _cameraSpeed = 2.5f;
+
 	Shader* _shader;
 	GLuint _textures[2];
 	GLuint _ebo, _vao, _vbo;
-	glm::mat4 model, view, projection;
+	glm::mat4 _model, _view, _projection;
 	glm::vec3 cubePositions[10];
+
+	// Camera stuff
+	glm::vec3 _upVector;
+	glm::vec3 _cameraPos;
+	glm::vec3 _cameraTarget;
+	glm::vec3 _cameraDirection;
+	glm::vec3 _cameraRight;
+	glm::vec3 _cameraUp;
+	glm::vec3 _cameraFront;
+
+	// Command List
+	Command* moveLeftCommand;
+	Command* moveRightCommand;
+	Command* moveUpCommand;
+	Command* moveDownCommand;
+
+	// Command object specific to this class
+	class MoveCommand : public Command
+	{	
+	public:
+		enum DIRECTION
+		{
+			STRAFE,
+			WALK
+		};
+		MoveCommand(Learn_Open_GL_Transformations* gameObject, DIRECTION direction, GLfloat modifier)
+			: _gameObject(gameObject), _direction(direction), _modifier(modifier)
+		{
+
+		}
+
+		void Execute()
+		{
+			if (_direction == STRAFE)
+			{
+				_gameObject->moveCameraStrafe(_modifier);
+			}
+			else	
+			{
+				_gameObject->moveCameraWalk(_modifier);
+			}
+		}
+	private:
+		Learn_Open_GL_Transformations* _gameObject;
+		DIRECTION _direction;
+		GLfloat _modifier;
+	};
+
 };

@@ -165,7 +165,7 @@
     <ClInclude Include="Super_Bible_Chapter_5_Textures.h" />
     <ClInclude Include="GL_Helpers.h" />
     <ClInclude Include="Shader.h" />
-    <ClInclude Include="Transformations.h" />
+    <ClInclude Include="Learn_OpenGL_Transformations.h" />
     <ClInclude Include="vmath.h" />
     <ClInclude Include="Super_Bible_Chapter_1.h" />
     <ClInclude Include="Super_Bible_Chapter_5.h" />

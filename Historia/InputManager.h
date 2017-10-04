@@ -9,7 +9,7 @@ class InputManager
 public:
 	~InputManager();
 	static InputManager* getInstance();
-	void mapKey(Command::CommandKeys key, Command* command);
+	void mapKey(SDL_Keycode key, Command* command);
 	void receiveKeyboardInput(SDL_Keycode key);
 	void processInput();
 
@@ -20,7 +20,7 @@ private:
 
 	// Class specific
 	SDL_Event _sdlEvent;
-	std::map<Command::CommandKeys, Command*> _keyMappings;
+	std::map<SDL_Keycode, Command*> _keyMappings;
 	std::queue<Command*> _commandQueue;
 
 };

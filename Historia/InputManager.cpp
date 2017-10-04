@@ -22,17 +22,21 @@ InputManager* InputManager::getInstance()
 	return _instance;
 }
 
-void InputManager::mapKey(Command::CommandKeys key, Command* command)
+void InputManager::mapKey(SDL_Keycode key, Command* command)
 {
 	_keyMappings[key] = command;
 }
 
 void InputManager::receiveKeyboardInput(SDL_Keycode key)
 {
-	switch (key)
-	{
+	// In this case, key is does not mean the key in a key/value pair but the SDL Key pressed
+	std::map<SDL_Keycode, Command*>::iterator iterator = _keyMappings.find(key);
 
+	if (iterator != _keyMappings.end())
+	{
+		_commandQueue.push(iterator->second);
 	}
+
 }
 
 void InputManager::processInput()

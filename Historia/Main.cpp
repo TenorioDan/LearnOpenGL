@@ -2,7 +2,7 @@
 #include "Super_Bible_Chapter_1.h"
 #include "Super_Bible_Chapter_5.h"
 #include "Super_Bible_Chapter_5_Textures.h"
-#include "Transformations.h"
+#include "Learn_OpenGL_Transformations.h"
 
 #include "InputManager.h"
 
@@ -130,7 +130,7 @@ void close()
 
 void update()
 {
-
+	currentTutorial->update((float)SDL_GetTicks()/1000.0f);
 }
 
 void render()
@@ -174,8 +174,8 @@ int main(int argc, char* args[])
 				}
 			}
 			
-			inputManager->processInput();
 			update();
+			inputManager->processInput();
 			render();
 
 			// Update Screen
