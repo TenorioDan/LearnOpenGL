@@ -1,4 +1,5 @@
 #include "InputManager.h"
+#include <SDL.h>
 
 InputManager* InputManager::_instance;
 
@@ -27,6 +28,19 @@ void InputManager::mapKey(SDL_Keycode key, Command* command)
 	_keyMappings[key] = command;
 }
 
+void InputManager::keyPressed(SDL_Keycode key)
+{
+	if (_keyStates[key])
+	{
+		receiveKeyboardInput(key);
+	}
+}
+
+void InputManager::keyReleased(SDL_Keycode key)
+{
+	// return false;
+}
+
 void InputManager::receiveKeyboardInput(SDL_Keycode key)
 {
 	// In this case, key is does not mean the key in a key/value pair but the SDL Key pressed
@@ -46,5 +60,16 @@ void InputManager::processInput()
 		_commandQueue.front()->Execute();
 		_commandQueue.pop();
 	}
+}
+
+
+void InputManager::update(float currentTime)
+{
+	_keyStates = SDL_GetKeyboardState(NULL);
+	
+	keyPressed(SDL_SCANCODE_W);
+	keyPressed(SDL_SCANCODE_A);
+	keyPressed(SDL_SCANCODE_S);
+	keyPressed(SDL_SCANCODE_D);
 }
 

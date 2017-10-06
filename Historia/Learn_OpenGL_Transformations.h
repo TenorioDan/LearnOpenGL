@@ -87,10 +87,10 @@ public:
 	{
 		// Assign key commands to the input manager
 		_inputManager = InputManager::getInstance();
-		_inputManager->mapKey(SDLK_w, new MoveCommand(this, MoveCommand::WALK,	  1));
-		_inputManager->mapKey(SDLK_a, new MoveCommand(this, MoveCommand::STRAFE, -1));
-		_inputManager->mapKey(SDLK_s, new MoveCommand(this, MoveCommand::WALK,	 -1));		
-		_inputManager->mapKey(SDLK_d, new MoveCommand(this, MoveCommand::STRAFE,  1));
+		_inputManager->mapKey(SDL_SCANCODE_W, new MoveCommand(this, MoveCommand::WALK,	  1));
+		_inputManager->mapKey(SDL_SCANCODE_A, new MoveCommand(this, MoveCommand::STRAFE, -1));
+		_inputManager->mapKey(SDL_SCANCODE_S, new MoveCommand(this, MoveCommand::WALK,	 -1));
+		_inputManager->mapKey(SDL_SCANCODE_D, new MoveCommand(this, MoveCommand::STRAFE,  1));
 
 		glEnable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
@@ -164,8 +164,8 @@ public:
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		loadTexture("media/textures/container.jpg", GL_RGB);
 
@@ -173,15 +173,15 @@ public:
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		loadTexture("media/textures/awesomeface.png", GL_RGBA);
 
 		// Coordinate Transformation Stuff
 		//model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0, 0.0f));
 		//_view = glm::translate(_view, glm::vec3(0.0f, 0.0f, -3.0f));
-		_projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
+		_projection = glm::perspective(glm::radians(45.0f), 16.0f/9.0f, 0.1f, 100.0f);
 
 		
 		cubePositions[0] = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -234,7 +234,7 @@ public:
 		_previousTime = _currentTime;
 		_currentTime = currentTime;
 		_deltaTime = _currentTime - _previousTime;
-		_cameraSpeed = 5.f * _deltaTime;
+		_cameraSpeed = 10.0f * _deltaTime;
 	}
 
 	void render(double currentTime)
@@ -312,7 +312,7 @@ private:
 	GLfloat _currentTime = 0.0;
 	GLfloat _previousTime = 0.0;
 	GLfloat _deltaTime = 0.0;
-	GLfloat _cameraSpeed = 2.5f;
+	GLfloat _cameraSpeed = 10.0f;
 
 	Shader* _shader;
 	GLuint _textures[2];

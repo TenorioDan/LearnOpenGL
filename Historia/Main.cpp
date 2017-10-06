@@ -21,6 +21,7 @@ void update();
 /*
 Main Variables
 */
+GLfloat currentTime;
 GLuint WINDOW_WIDTH;
 GLuint WINDOW_HEIGHT;
 SDL_Window* gWindow = NULL;
@@ -55,8 +56,8 @@ bool init()
 		}
 		else
 		{
-			WINDOW_WIDTH = 1000; // current.w / 2;
-			WINDOW_HEIGHT = 1000; // current.h / 2;
+			WINDOW_WIDTH = current.w / 1.5;
+			WINDOW_HEIGHT = current.h / 1.5;
 
 			// Create window
 			gWindow = SDL_CreateWindow("Historia", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
@@ -130,7 +131,9 @@ void close()
 
 void update()
 {
-	currentTutorial->update((float)SDL_GetTicks()/1000.0f);
+	currentTime = (float)SDL_GetTicks() / 1000.0f;
+	inputManager->update(currentTime);
+	currentTutorial->update(currentTime);
 }
 
 void render()
@@ -141,6 +144,8 @@ void render()
 
 int main(int argc, char* args[])
 {
+
+	int frame = 0;
 	
 	if (!init())
 	{
@@ -162,6 +167,8 @@ int main(int argc, char* args[])
 
 		while (!quit)
 		{
+			++frame;
+
 			while (SDL_PollEvent(&e) != 0)
 			{
 				if (e.type == SDL_QUIT)
@@ -170,7 +177,7 @@ int main(int argc, char* args[])
 				}
 				else if (e.type == SDL_KEYDOWN)
 				{
-					inputManager->receiveKeyboardInput(e.key.keysym.sym);
+					//inputManager->receiveKeyboardInput(e.key.keysym.sym);
 				}
 			}
 			
