@@ -11,6 +11,8 @@ public:
 	static InputManager* getInstance();
 	void mapKey(SDL_Keycode key, Command* command);
 	void receiveKeyboardInput(SDL_Keycode key);
+	void setMouseMotionCommand(MouseCommand* command);
+	void receiveMouseMotion(SDL_MouseMotionEvent motion);
 	void processInput();
 	void update(float currentTime);
 
@@ -27,5 +29,6 @@ private:
 	SDL_Event _sdlEvent;
 	std::map<SDL_Keycode, Command*> _keyMappings;
 	std::queue<Command*> _commandQueue;
+	MouseCommand* _currentMouseMotionCommand;
 
 };

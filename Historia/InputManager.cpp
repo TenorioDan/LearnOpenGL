@@ -41,6 +41,11 @@ void InputManager::keyReleased(SDL_Keycode key)
 	// return false;
 }
 
+void InputManager::setMouseMotionCommand(MouseCommand* command)
+{
+	_currentMouseMotionCommand = command;
+}
+
 void InputManager::receiveKeyboardInput(SDL_Keycode key)
 {
 	// In this case, key is does not mean the key in a key/value pair but the SDL Key pressed
@@ -53,6 +58,12 @@ void InputManager::receiveKeyboardInput(SDL_Keycode key)
 
 }
 
+void InputManager::receiveMouseMotion(SDL_MouseMotionEvent motion)
+{
+	_currentMouseMotionCommand->setMouseState(motion.xrel, motion.yrel);
+	_commandQueue.push(_currentMouseMotionCommand);
+}
+
 void InputManager::processInput()
 {
 	while (!_commandQueue.empty())
@@ -62,7 +73,7 @@ void InputManager::processInput()
 	}
 }
 
-
+// Update keyboard and mouse state
 void InputManager::update(float currentTime)
 {
 	_keyStates = SDL_GetKeyboardState(NULL);

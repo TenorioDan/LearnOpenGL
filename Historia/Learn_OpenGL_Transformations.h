@@ -91,7 +91,10 @@ public:
 		_inputManager->mapKey(SDL_SCANCODE_A, new MoveCommand(this, MoveCommand::STRAFE, -1));
 		_inputManager->mapKey(SDL_SCANCODE_S, new MoveCommand(this, MoveCommand::WALK,	 -1));
 		_inputManager->mapKey(SDL_SCANCODE_D, new MoveCommand(this, MoveCommand::STRAFE,  1));
+		_inputManager->setMouseMotionCommand(new LookCommand(this));
 
+		SDL_ShowCursor(SDL_DISABLE);
+		SDL_SetRelativeMouseMode(SDL_TRUE);
 		glEnable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -235,6 +238,8 @@ public:
 		_currentTime = currentTime;
 		_deltaTime = _currentTime - _previousTime;
 		_cameraSpeed = 10.0f * _deltaTime;
+
+
 	}
 
 	void render(double currentTime)
@@ -307,12 +312,44 @@ public:
 		_cameraPos += _cameraSpeed * _cameraFront * direction;
 	}
 
+	void cameraLook(GLfloat xOffset, GLfloat yOffset)
+	{
+		if (firstMouse)
+		{
+			firstMouse = GL_FALSE;
+		}
+
+		xOffset *= (GLfloat)mouseSensitivity;
+		yOffset *= (GLfloat)mouseSensitivity;
+
+		_yaw += xOffset;
+		_pitch -= yOffset;
+
+		if (_pitch > 89.0f)
+			_pitch = 89.0f;
+		if (_pitch < -89.0f)
+			_pitch = -89.0f;
+
+		glm::vec3 front;
+		front.x = cos(glm::radians(_yaw)) * cos(glm::radians(_pitch));
+		front.y = sin(glm::radians(_pitch));
+		front.z = sin(glm::radians(_yaw)) * cos(glm::radians(_pitch));
+		_cameraFront = glm::normalize(front);
+
+	}
+
 private:
 	InputManager* _inputManager;
 	GLfloat _currentTime = 0.0;
 	GLfloat _previousTime = 0.0;
 	GLfloat _deltaTime = 0.0;
 	GLfloat _cameraSpeed = 10.0f;
+	GLfloat _yaw = -90.0;
+	GLfloat _pitch = 0.0f;
+	GLfloat _roll;
+	GLfloat mouseSensitivity = 0.125f;
+	GLfloat lastX = 853.33f, lastY = 480.0f;
+	GLboolean firstMouse = GL_TRUE;
 
 	Shader* _shader;
 	GLuint _textures[2];
@@ -365,6 +402,31 @@ private:
 		Learn_Open_GL_Transformations* _gameObject;
 		DIRECTION _direction;
 		GLfloat _modifier;
+	};
+
+	class LookCommand : public MouseCommand
+	{
+	public:
+		LookCommand(Learn_Open_GL_Transformations* gameObject)
+			: _gameObject(gameObject)
+		{
+
+		};
+
+		void setMouseState(Sint32 x, Sint32 y)
+		{
+			_x = x;
+			_y = y;
+		}
+
+		void Execute()
+		{
+			//printf("%d %d\n", _x, _y);
+			_gameObject->cameraLook(_x, _y);
+		}
+
+	private:
+		Learn_Open_GL_Transformations* _gameObject;
 	};
 
 };

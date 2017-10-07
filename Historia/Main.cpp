@@ -179,6 +179,10 @@ int main(int argc, char* args[])
 				{
 					//inputManager->receiveKeyboardInput(e.key.keysym.sym);
 				}
+				else if (e.type == SDL_MOUSEMOTION)
+				{
+					inputManager->receiveMouseMotion(e.motion);
+				}
 			}
 			
 			update();
