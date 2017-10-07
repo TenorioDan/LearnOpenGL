@@ -60,7 +60,7 @@ void InputManager::receiveKeyboardInput(SDL_Keycode key)
 
 void InputManager::receiveMouseMotion(SDL_MouseMotionEvent motion)
 {
-	_currentMouseMotionCommand->setMouseState(motion.xrel, motion.yrel);
+	_currentMouseMotionCommand->setMouseState(motion.x, motion.y, motion.xrel, motion.yrel);
 	_commandQueue.push(_currentMouseMotionCommand);
 }
 

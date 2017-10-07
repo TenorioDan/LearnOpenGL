@@ -5,6 +5,7 @@
 #include "Shader.h"
 #include "InputManager.h"
 #include "Command.h"
+#include "Camera.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -85,13 +86,8 @@ public:
 
 	void init()
 	{
-		// Assign key commands to the input manager
-		_inputManager = InputManager::getInstance();
-		_inputManager->mapKey(SDL_SCANCODE_W, new MoveCommand(this, MoveCommand::WALK,	  1));
-		_inputManager->mapKey(SDL_SCANCODE_A, new MoveCommand(this, MoveCommand::STRAFE, -1));
-		_inputManager->mapKey(SDL_SCANCODE_S, new MoveCommand(this, MoveCommand::WALK,	 -1));
-		_inputManager->mapKey(SDL_SCANCODE_D, new MoveCommand(this, MoveCommand::STRAFE,  1));
-		_inputManager->setMouseMotionCommand(new LookCommand(this));
+		_camera = new Camera();
+		_camera->setCameraCommands();
 
 		SDL_ShowCursor(SDL_DISABLE);
 		SDL_SetRelativeMouseMode(SDL_TRUE);
@@ -198,24 +194,6 @@ public:
 		cubePositions[8] = glm::vec3(1.5f, 0.2f, -1.5f);
 		cubePositions[9] = glm::vec3(-1.3f, 1.0f, -1.5f);
 
-		//// Gram-Schmidt a camera's orientation
-		//_upVector = glm::vec3(0.0f, 1.0f, 0.0f);
-		//_cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-		//_cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-		//_cameraDirection = glm::normalize(_cameraPos - _cameraTarget);
-		//_cameraRight = glm::normalize(glm::cross(_upVector, _cameraDirection));
-		//_cameraUp = glm::normalize(glm::cross(_cameraDirection, _cameraRight));
-		//_cameraFront = glm::vec3(0.0f, 1.0f, 0.0f);
-		//
-		//_view = glm::lookAt(
-		//	glm::vec3(0.0f, 0.0f, 3.0f),
-		//	glm::vec3(0.0f, 0.0f, 0.0f),
-		//	glm::vec3(0.0f, 1.0f, 0.0f)
-		//);
-
-		_cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-		_cameraFront = glm::vec3(0.0, 0.0, -1.0f);
-		_cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	}
 
 	void loadTexture(const char* path, GLint colorType)
@@ -236,10 +214,8 @@ public:
 	{
 		_previousTime = _currentTime;
 		_currentTime = currentTime;
-		_deltaTime = _currentTime - _previousTime;
-		_cameraSpeed = 10.0f * _deltaTime;
 
-
+		_camera->update(currentTime);
 	}
 
 	void render(double currentTime)
@@ -265,14 +241,7 @@ public:
 		int viewLocation = glGetUniformLocation(_shader->Program(), "view");
 		int projectionLocation = glGetUniformLocation(_shader->Program(), "projection");
 
-		// Rotate the camera in a circle aroudn the objects
-		//GLfloat radius = 5.0f;
-		/*GLfloat camX = sin(currentTime) * radius;
-		GLfloat camZ = cos(currentTime) * radius;
-		_view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0, 1.0, 0.0));*/
-
-		_view = glm::lookAt(_cameraPos, _cameraPos + _cameraFront, _cameraUp);
-
+		_view = _camera->getViewMatrix();
 		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(_view));
 		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(_projection));
 
@@ -302,131 +271,19 @@ public:
 		//glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
 
-	void moveCameraStrafe(GLfloat direction)
-	{
-		_cameraPos += glm::normalize(glm::cross(_cameraFront, _cameraUp)) * _cameraSpeed * direction;
-	}
-
-	void moveCameraWalk(GLfloat direction)
-	{
-		_cameraPos += _cameraSpeed * _cameraFront * direction;
-	}
-
-	void cameraLook(GLfloat xOffset, GLfloat yOffset)
-	{
-		if (firstMouse)
-		{
-			firstMouse = GL_FALSE;
-		}
-
-		xOffset *= (GLfloat)mouseSensitivity;
-		yOffset *= (GLfloat)mouseSensitivity;
-
-		_yaw += xOffset;
-		_pitch -= yOffset;
-
-		if (_pitch > 89.0f)
-			_pitch = 89.0f;
-		if (_pitch < -89.0f)
-			_pitch = -89.0f;
-
-		glm::vec3 front;
-		front.x = cos(glm::radians(_yaw)) * cos(glm::radians(_pitch));
-		front.y = sin(glm::radians(_pitch));
-		front.z = sin(glm::radians(_yaw)) * cos(glm::radians(_pitch));
-		_cameraFront = glm::normalize(front);
-
-	}
 
 private:
-	InputManager* _inputManager;
 	GLfloat _currentTime = 0.0;
 	GLfloat _previousTime = 0.0;
-	GLfloat _deltaTime = 0.0;
-	GLfloat _cameraSpeed = 10.0f;
-	GLfloat _yaw = -90.0;
-	GLfloat _pitch = 0.0f;
-	GLfloat _roll;
-	GLfloat mouseSensitivity = 0.125f;
-	GLfloat lastX = 853.33f, lastY = 480.0f;
-	GLboolean firstMouse = GL_TRUE;
 
+	Camera* _camera;
+
+	// Shader stuff
 	Shader* _shader;
 	GLuint _textures[2];
 	GLuint _ebo, _vao, _vbo;
 	glm::mat4 _model, _view, _projection;
 	glm::vec3 cubePositions[10];
-
-	// Camera stuff
-	glm::vec3 _upVector;
-	glm::vec3 _cameraPos;
-	glm::vec3 _cameraTarget;
-	glm::vec3 _cameraDirection;
-	glm::vec3 _cameraRight;
-	glm::vec3 _cameraUp;
-	glm::vec3 _cameraFront;
-
-	// Command List
-	Command* moveLeftCommand;
-	Command* moveRightCommand;
-	Command* moveUpCommand;
-	Command* moveDownCommand;
-
-	// Command object specific to this class
-	class MoveCommand : public Command
-	{	
-	public:
-		enum DIRECTION
-		{
-			STRAFE,
-			WALK
-		};
-		MoveCommand(Learn_Open_GL_Transformations* gameObject, DIRECTION direction, GLfloat modifier)
-			: _gameObject(gameObject), _direction(direction), _modifier(modifier)
-		{
-
-		}
-
-		void Execute()
-		{
-			if (_direction == STRAFE)
-			{
-				_gameObject->moveCameraStrafe(_modifier);
-			}
-			else	
-			{
-				_gameObject->moveCameraWalk(_modifier);
-			}
-		}
-	private:
-		Learn_Open_GL_Transformations* _gameObject;
-		DIRECTION _direction;
-		GLfloat _modifier;
-	};
-
-	class LookCommand : public MouseCommand
-	{
-	public:
-		LookCommand(Learn_Open_GL_Transformations* gameObject)
-			: _gameObject(gameObject)
-		{
-
-		};
-
-		void setMouseState(Sint32 x, Sint32 y)
-		{
-			_x = x;
-			_y = y;
-		}
-
-		void Execute()
-		{
-			//printf("%d %d\n", _x, _y);
-			_gameObject->cameraLook(_x, _y);
-		}
-
-	private:
-		Learn_Open_GL_Transformations* _gameObject;
-	};
+	
 
 };
