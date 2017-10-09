@@ -36,6 +36,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Super_Bible_Chapter_1.h">
@@ -74,6 +77,15 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Learn_OpenGL_Lighting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\intro_pipeline\fragment_shader_1.frag">
@@ -97,6 +109,9 @@
     <None Include="Shaders\LearnOpenGL\vertex_shader_texture_1.vert" />
     <None Include="Shaders\LearnOpenGL\CoordinateSystems\vertex_shader_1.vert" />
     <None Include="Shaders\LearnOpenGL\CoordinateSystems\fragment_shader.frag" />
+    <None Include="Shaders\LearnOpenGL\Lighting\vertex_shader_1.vert" />
+    <None Include="Shaders\LearnOpenGL\Lighting\fragment_shader_1.frag" />
+    <None Include="Shaders\LearnOpenGL\Lighting\fragment_shader_2.frag" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Shaders\intro_pipeline\vertex_shader_1.vert" />

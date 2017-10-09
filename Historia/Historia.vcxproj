@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Cube.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -162,7 +163,10 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Command.h" />
+    <ClInclude Include="Cube.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Learn_OpenGL_Lighting.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Super_Bible_Chapter_5_Textures.h" />
     <ClInclude Include="GL_Helpers.h" />
@@ -197,6 +201,9 @@
     <None Include="Shaders\LearnOpenGL\CoordinateSystems\fragment_shader.frag" />
     <None Include="Shaders\LearnOpenGL\CoordinateSystems\vertex_shader_1.vert" />
     <None Include="Shaders\LearnOpenGL\fragment_shader_texture_1.frag" />
+    <None Include="Shaders\LearnOpenGL\Lighting\fragment_shader_1.frag" />
+    <None Include="Shaders\LearnOpenGL\Lighting\fragment_shader_2.frag" />
+    <None Include="Shaders\LearnOpenGL\Lighting\vertex_shader_1.vert" />
     <None Include="Shaders\LearnOpenGL\vertex_shader_texture_1.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

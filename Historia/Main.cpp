@@ -3,6 +3,7 @@
 #include "Super_Bible_Chapter_5.h"
 #include "Super_Bible_Chapter_5_Textures.h"
 #include "Learn_OpenGL_Transformations.h"
+#include "Learn_OpenGL_Lighting.h"
 
 #include "InputManager.h"
 
@@ -123,7 +124,9 @@ void close()
 	gWindow = NULL;
 	//delete dynamic_cast<Super_Bible_Chapter_1*>(currentTutorial);
 	//delete dynamic_cast<Super_Bible_Chapter_5*>(currentTutorial);
-	delete dynamic_cast<Learn_Open_GL_Transformations*>(currentTutorial);
+	//delete dynamic_cast<Learn_Open_GL_Transformations*>(currentTutorial);
+	delete dynamic_cast<Learn_OpenGL_Lighting*>(currentTutorial);
+
 
 	// Quiit SDL Subsystems
 	SDL_Quit();
@@ -162,7 +165,8 @@ int main(int argc, char* args[])
 		//currentTutorial = new Super_Bible_Chapter_1();
 		//currentTutorial = new Super_Bible_Chapter_5();
 		//currentTutorial = new Super_Bible_Chapter_5_Textures();
-		currentTutorial = new Learn_Open_GL_Transformations();
+		//currentTutorial = new Learn_Open_GL_Transformations();
+		currentTutorial = new Learn_OpenGL_Lighting();
 		currentTutorial->init();
 
 		while (!quit)
@@ -174,10 +178,6 @@ int main(int argc, char* args[])
 				if (e.type == SDL_QUIT)
 				{
 					quit = true;
-				}
-				else if (e.type == SDL_KEYDOWN)
-				{
-					//inputManager->receiveKeyboardInput(e.key.keysym.sym);
 				}
 				else if (e.type == SDL_MOUSEMOTION)
 				{

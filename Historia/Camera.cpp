@@ -9,9 +9,9 @@ Camera::Camera()
 	_moveBackCommand = new MoveCommand(this, Camera::MoveCommand::WALK, -1);
 	_lookCommand = new LookCommand(this);	
 
-	_position = glm::vec3(0.0f, 0.0f, 0.0f);
+	_position = glm::vec3(0.0f, 0.0f, 3.0f);
 	_worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
-	_front = glm::vec3(0.0f, 0.0, -1.0f);
+	_front = glm::vec3(0.0f, 1.0, -1.0f);
 	updateCameraVectors();
 }
 

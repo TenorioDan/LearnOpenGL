@@ -7,7 +7,13 @@ class Tutorial
 {
 public:
 	virtual void init() = 0;
-	virtual void update(double currentTime) = 0;
+
+	virtual void update(double currentTime)
+	{
+		_previousTime = _currentTime;
+		_currentTime = currentTime;
+		_deltaTime = _currentTime - _previousTime;
+	}
 
 	virtual void render(double currentTime)
 	{
@@ -18,5 +24,8 @@ public:
 		glClearBufferfv(GL_COLOR, 0, color);
 		glClearBufferfi(GL_DEPTH_STENCIL, 0, 1.0f, 0);
 	}
+
+private:
+	double _currentTime, _previousTime, _deltaTime;
 
 };
