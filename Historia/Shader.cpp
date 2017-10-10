@@ -104,3 +104,18 @@ GLuint Shader::Program()
 {
 	return _program;
 }
+
+void Shader::setVec2(const char* name, glm::vec2 vec)
+{
+	glUniform2f(glGetUniformLocation(_program, name), vec.x, vec.y);
+}
+
+void Shader::setVec3(const char* name, glm::vec3 vec)
+{
+	glUniform3f(glGetUniformLocation(_program, name), vec.x, vec.y, vec.z);
+}
+
+void Shader::setMat4(const char* name, glm::mat4 &mat)
+{
+	glUniformMatrix4fv(glGetUniformLocation(_program, name), 1, GL_FALSE, &mat[0][0]);
+}

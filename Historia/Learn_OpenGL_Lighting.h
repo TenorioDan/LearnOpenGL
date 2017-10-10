@@ -30,48 +30,49 @@ public:
 		_lightShader->CompileShader("Shaders/LearnOpenGL/Lighting/fragment_shader_2.frag", GL_FRAGMENT_SHADER);
 		_lightShader->LinkShaders();
 
-		GLfloat vertices[] = {
-			-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-			 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-			 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+		// vertex data containing vertex coordinates and normal values
+		float vertices[] = {
+			-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+			 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+			 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+			 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+			-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+			-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-			 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-			 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		  	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-			-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+			-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+			 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+			 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+			 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+			-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+			-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
 
-			-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-			-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+			-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+			-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+			-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+			-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+			-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+			-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-			 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-			 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+			 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+			 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+			 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+			 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		 	 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+			 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-			 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-			 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+			 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+			 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+			 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+			-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+			-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-			 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+			-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+			 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+			 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+			 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+			-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+			-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 		};
 
 		glGenVertexArrays(1, &_vao);
@@ -81,10 +82,10 @@ public:
 		glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)0);
 		glEnableVertexAttribArray(0);
 
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 		glEnableVertexAttribArray(1);
 
 		// Light shader objects
@@ -94,7 +95,7 @@ public:
 		// We only need to bind to the VBO, the container's VBO's data already contains the correct data
 		glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 		// set the vertex aettributes (only position data for the lamp)
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)0);
 		glEnableVertexAttribArray(0);
 
 		// Camera setup
@@ -124,17 +125,15 @@ public:
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUseProgram(_shader->Program());
+		
+		//_lightPos = glm::vec3(sin(currentTime) * 2.5, cos(currentTime) * 2.5, 0.0f);
 
-		GLint modelLocation = glGetUniformLocation(_shader->Program(), "model");
-		GLint viewLocation = glGetUniformLocation(_shader->Program(), "view");
-		GLint projectionLocation = glGetUniformLocation(_shader->Program(), "projection");
-
-		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(_view));
-		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(_projection));
-		glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(_model));
-
-		glUniform3f(glGetUniformLocation(_shader->Program(), "objectColor"), _objectColor.x, _objectColor.y, _objectColor.z);
-		glUniform3f(glGetUniformLocation(_shader->Program(), "lightColor"), _lightColor.x, _lightColor.y, _lightColor.z);
+		_shader->setMat4("model", _model);
+		_shader->setMat4("view", _view);
+		_shader->setMat4("projection", _projection);
+		_shader->setVec3("objectColor", _objectColor);
+		_shader->setVec3("lightColor", _lightColor);
+		_shader->setVec3("lightPos", _lightPos);
 
 		glBindVertexArray(_vao);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -142,17 +141,13 @@ public:
 		// Use the light shader object and set the uniforms
 		glUseProgram(_lightShader->Program());
 
-		modelLocation = glGetUniformLocation(_lightShader->Program(), "model");
-		viewLocation = glGetUniformLocation(_lightShader->Program(), "view");
-		projectionLocation = glGetUniformLocation(_lightShader->Program(), "projection");
-
 		_model = glm::translate(_model, _lightPos);
 		_model = glm::scale(_model, glm::vec3(0.2f));
 
-		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(_view));
-		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(_projection));
-		glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(_model));
-		
+		_lightShader->setMat4("model", _model);
+		_lightShader->setMat4("view", _view);
+		_lightShader->setMat4("projection", _projection);
+
 		glBindVertexArray(_lightVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
