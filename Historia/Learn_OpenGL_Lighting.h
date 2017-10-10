@@ -20,15 +20,15 @@ public:
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		stbi_set_flip_vertically_on_load(true);
 
-		_shader = new Shader();
-		_shader->CompileShader("Shaders/LearnOpenGL/Lighting/vertex_shader_1.vert", GL_VERTEX_SHADER);
-		_shader->CompileShader("Shaders/LearnOpenGL/Lighting/fragment_shader_1.frag", GL_FRAGMENT_SHADER);
-		_shader->LinkShaders();
-
 		_lightShader = new Shader();
 		_lightShader->CompileShader("Shaders/LearnOpenGL/Lighting/vertex_shader_1.vert", GL_VERTEX_SHADER);
-		_lightShader->CompileShader("Shaders/LearnOpenGL/Lighting/fragment_shader_2.frag", GL_FRAGMENT_SHADER);
+		_lightShader->CompileShader("Shaders/LearnOpenGL/Lighting/fragment_shader_1.frag", GL_FRAGMENT_SHADER);
 		_lightShader->LinkShaders();
+
+		_lampShader = new Shader();
+		_lampShader->CompileShader("Shaders/LearnOpenGL/Lighting/vertex_shader_1.vert", GL_VERTEX_SHADER);
+		_lampShader->CompileShader("Shaders/LearnOpenGL/Lighting/fragment_shader_2.frag", GL_FRAGMENT_SHADER);
+		_lampShader->LinkShaders();
 
 		// vertex data containing vertex coordinates and normal values
 		float vertices[] = {
@@ -124,29 +124,30 @@ public:
 		_view = _camera->getViewMatrix();
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glUseProgram(_shader->Program());
+		glUseProgram(_lightShader->Program());
 		
-		//_lightPos = glm::vec3(sin(currentTime) * 2.5, cos(currentTime) * 2.5, 0.0f);
+		_lightPos = glm::vec3(sin(currentTime) * 2.5, cos(currentTime) * 2.5, 0.0f);
 
-		_shader->setMat4("model", _model);
-		_shader->setMat4("view", _view);
-		_shader->setMat4("projection", _projection);
-		_shader->setVec3("objectColor", _objectColor);
-		_shader->setVec3("lightColor", _lightColor);
-		_shader->setVec3("lightPos", _lightPos);
+		_lightShader->setMat4("model", _model);
+		_lightShader->setMat4("view", _view);
+		_lightShader->setMat4("projection", _projection);
+		_lightShader->setVec3("objectColor", _objectColor);
+		_lightShader->setVec3("lightColor", _lightColor);
+		_lightShader->setVec3("lightPos", _lightPos);
+		_lightShader->setVec3("viewPos", _camera->position());
 
 		glBindVertexArray(_vao);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		// Use the light shader object and set the uniforms
-		glUseProgram(_lightShader->Program());
+		glUseProgram(_lampShader->Program());
 
 		_model = glm::translate(_model, _lightPos);
 		_model = glm::scale(_model, glm::vec3(0.2f));
 
-		_lightShader->setMat4("model", _model);
-		_lightShader->setMat4("view", _view);
-		_lightShader->setMat4("projection", _projection);
+		_lampShader->setMat4("model", _model);
+		_lampShader->setMat4("view", _view);
+		_lampShader->setMat4("projection", _projection);
 
 		glBindVertexArray(_lightVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -154,8 +155,8 @@ public:
 
 private:
 	GLuint _vbo, _vao, _ebo, _lightVAO;
-	Shader* _shader;
 	Shader* _lightShader;
+	Shader* _lampShader;
 	Camera* _camera;
 	glm::mat4 _model, _view, _projection;
 	glm::vec3 _lightPos, _lightColor, _objectColor;

@@ -65,6 +65,26 @@ glm::mat4 Camera::getViewMatrix()
 	return glm::lookAt(_position, _position + _front, _up);
 }
 
+glm::vec3 Camera::position()
+{
+	return _position;
+}
+
+glm::vec3 Camera::front()
+{
+	return _front;
+}
+
+glm::vec3 Camera::up()
+{
+	return _up;
+}
+
+glm::vec3 Camera::right()
+{
+	return _right;
+}
+
 // Calculates the front vector from the update Eular Angles and
 // Uses the Gramm-schmidt process to calculate the up and right vectors
 void Camera::updateCameraVectors()
