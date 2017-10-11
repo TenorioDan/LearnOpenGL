@@ -110,8 +110,12 @@
     <None Include="Shaders\LearnOpenGL\CoordinateSystems\vertex_shader_1.vert" />
     <None Include="Shaders\LearnOpenGL\CoordinateSystems\fragment_shader.frag" />
     <None Include="Shaders\LearnOpenGL\Lighting\vertex_shader_1.vert" />
-    <None Include="Shaders\LearnOpenGL\Lighting\fragment_shader_1.frag" />
-    <None Include="Shaders\LearnOpenGL\Lighting\fragment_shader_2.frag" />
+    <None Include="Shaders\LearnOpenGL\Lighting\light_shader.frag" />
+    <None Include="Shaders\LearnOpenGL\Lighting\lamp_shader.frag" />
+    <None Include="Shaders\LearnOpenGL\Lighting\vertex_shader_view_space.vert" />
+    <None Include="Shaders\LearnOpenGL\Lighting\light_shader_view_space.frag" />
+    <None Include="Shaders\LearnOpenGL\Lighting\vertex_shader_gouraud.vert" />
+    <None Include="Shaders\LearnOpenGL\Lighting\light_shader_gouraud.frag" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Shaders\intro_pipeline\vertex_shader_1.vert" />

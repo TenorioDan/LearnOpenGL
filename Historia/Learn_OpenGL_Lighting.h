@@ -21,13 +21,13 @@ public:
 		stbi_set_flip_vertically_on_load(true);
 
 		_lightShader = new Shader();
-		_lightShader->CompileShader("Shaders/LearnOpenGL/Lighting/vertex_shader_1.vert", GL_VERTEX_SHADER);
-		_lightShader->CompileShader("Shaders/LearnOpenGL/Lighting/fragment_shader_1.frag", GL_FRAGMENT_SHADER);
+		_lightShader->CompileShader("Shaders/LearnOpenGL/Lighting/vertex_shader_gouraud.vert", GL_VERTEX_SHADER);
+		_lightShader->CompileShader("Shaders/LearnOpenGL/Lighting/light_shader_gouraud.frag", GL_FRAGMENT_SHADER);
 		_lightShader->LinkShaders();
 
 		_lampShader = new Shader();
 		_lampShader->CompileShader("Shaders/LearnOpenGL/Lighting/vertex_shader_1.vert", GL_VERTEX_SHADER);
-		_lampShader->CompileShader("Shaders/LearnOpenGL/Lighting/fragment_shader_2.frag", GL_FRAGMENT_SHADER);
+		_lampShader->CompileShader("Shaders/LearnOpenGL/Lighting/lamp_shader.frag", GL_FRAGMENT_SHADER);
 		_lampShader->LinkShaders();
 
 		// vertex data containing vertex coordinates and normal values
@@ -126,7 +126,9 @@ public:
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUseProgram(_lightShader->Program());
 		
-		_lightPos = glm::vec3(sin(currentTime) * 2.5, cos(currentTime) * 2.5, 0.0f);
+		//_lightPos = glm::vec3(sin(currentTime) * 2.5, cos(currentTime) * 2.5, 0.0f);
+
+		//_model = glm::rotate(_model, (float)currentTime, glm::vec3(0.0f, 1.0f, 0.0f));
 
 		_lightShader->setMat4("model", _model);
 		_lightShader->setMat4("view", _view);
@@ -142,6 +144,7 @@ public:
 		// Use the light shader object and set the uniforms
 		glUseProgram(_lampShader->Program());
 
+		_model = glm::mat4();
 		_model = glm::translate(_model, _lightPos);
 		_model = glm::scale(_model, glm::vec3(0.2f));
 
