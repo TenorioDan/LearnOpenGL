@@ -13,6 +13,7 @@ public:
 	GLuint FragmentShader();
 	GLuint Program();
 
+	void init();
 	void LinkShaders();
 
 	void setVec2(const char* name, glm::vec2 vec);

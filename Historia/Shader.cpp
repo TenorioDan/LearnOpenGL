@@ -8,6 +8,11 @@ Shader::Shader()
 	_program = glCreateProgram();
 }
 
+void Shader::init()
+{
+	//_program = glCreateProgram();
+}
+
 Shader::~Shader()
 {
 	glDeleteProgram(_program);

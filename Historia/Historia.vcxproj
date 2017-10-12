@@ -167,6 +167,8 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Learn_OpenGL_Lighting.h" />
+    <ClInclude Include="Playground.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Super_Bible_Chapter_5_Textures.h" />
     <ClInclude Include="GL_Helpers.h" />
@@ -183,6 +185,7 @@
     <Text Include="Shaders\LearnOpenGL\Transformations\vertex_shader_1.vert" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\Playground\cube_shader.vert" />
     <None Include="Shaders\Chapter_5\fragment_shader_1.frag" />
     <None Include="Shaders\Chapter_5\fragment_shader_2.frag" />
     <None Include="Shaders\Chapter_5\fragment_shader_3.frag" />

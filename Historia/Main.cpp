@@ -1,4 +1,5 @@
 #include "GL_Helpers.h"
+#include "Playground.h"
 #include "Super_Bible_Chapter_1.h"
 #include "Super_Bible_Chapter_5.h"
 #include "Super_Bible_Chapter_5_Textures.h"
@@ -125,7 +126,8 @@ void close()
 	//delete dynamic_cast<Super_Bible_Chapter_1*>(currentTutorial);
 	//delete dynamic_cast<Super_Bible_Chapter_5*>(currentTutorial);
 	//delete dynamic_cast<Learn_Open_GL_Transformations*>(currentTutorial);
-	delete dynamic_cast<Learn_OpenGL_Lighting*>(currentTutorial);
+	//delete dynamic_cast<Learn_OpenGL_Lighting*>(currentTutorial);
+	delete dynamic_cast<Playground*>(currentTutorial);
 
 
 	// Quiit SDL Subsystems
@@ -166,7 +168,7 @@ int main(int argc, char* args[])
 		//currentTutorial = new Super_Bible_Chapter_5();
 		//currentTutorial = new Super_Bible_Chapter_5_Textures();
 		//currentTutorial = new Learn_Open_GL_Transformations();
-		currentTutorial = new Learn_OpenGL_Lighting();
+		currentTutorial = new Playground();
 		currentTutorial->init();
 
 		while (!quit)
