@@ -95,6 +95,7 @@ public:
 
 		_diffuseMap = loadTexture("media/textures/container2.png");
 		_specularMap = loadTexture("media/textures/container2_specular.png");
+		_emissionMap = loadTexture("media/textures/matrix.jpg");
 
 		// Light shader objects
 		glGenVertexArrays(1, &_lightVAO);
@@ -134,15 +135,15 @@ public:
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUseProgram(_lightShader->Program());
 		
-		_lightPos = glm::vec3(sin(currentTime) * 2.5, sin(currentTime) * 2.5, cos(currentTime) * 2.5);
+		/*_lightPos = glm::vec3(sin(currentTime) * 2.5, sin(currentTime) * 2.5, cos(currentTime) * 2.5);
 		_model = glm::rotate(_model, -(float)currentTime, glm::vec3(0.0f, 1.0f, 0.0f));
 
-		/*_lightColor.x = sin(currentTime * 2.0f);
+		_lightColor.x = sin(currentTime * 2.0f);
 		_lightColor.y = sin(currentTime * 0.7f);
 		_lightColor.z = sin(currentTime * 1.3f);*/
 
-		glm::vec3 diffuseColor = _lightColor * glm::vec3(1.0f);
-		glm::vec3 ambientColor = diffuseColor * glm::vec3(1.0f);
+		glm::vec3 diffuseColor = _lightColor * glm::vec3(0.5f);
+		glm::vec3 ambientColor = _lightColor * glm::vec3(0.2f);
 
 		_lightShader->setMat4("model", _model);
 		_lightShader->setMat4("view", _view);
@@ -151,12 +152,13 @@ public:
 		// material properties
 		_lightShader->setInt("material.diffuse", 0);
 		_lightShader->setInt("material.specular", 1);
+		_lightShader->setInt("material.emission", 2);
 		_lightShader->setFloat("material.shininess", 64.0f);
 
 		// light properties
-		_lightShader->setVec3("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
-		_lightShader->setVec3("light.diffuse", glm::vec3(0.5f, 0.5f, 0.5f)); // darken the light a bit to fit the scene
-		_lightShader->setVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		_lightShader->setVec3("light.ambient", ambientColor);
+		_lightShader->setVec3("light.diffuse", diffuseColor); // darken the light a bit to fit the scene
+		_lightShader->setVec3("light.specular", glm::vec3(1.0f));
 		_lightShader->setVec3("light.position", _lightPos);
 
 		_lightShader->setVec3("viewPos", _camera->position());
@@ -165,6 +167,8 @@ public:
 		glBindTexture(GL_TEXTURE_2D, _diffuseMap);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, _specularMap);
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, _emissionMap);
 
 		glBindVertexArray(_vao);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -224,7 +228,8 @@ public:
 	}
 
 private:
-	GLuint _vbo, _vao, _ebo, _lightVAO, _diffuseMap, _specularMap;
+	GLuint _vbo, _vao, _ebo, _lightVAO;
+	GLuint _diffuseMap, _specularMap, _emissionMap;
 	Shader* _lightShader;
 	Shader* _lampShader;
 	Camera* _camera;
