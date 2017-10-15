@@ -110,6 +110,11 @@ GLuint Shader::Program()
 	return _program;
 }
 
+void Shader::setFloat(const char* name, float val)
+{
+	glUniform1f(glGetUniformLocation(_program, name), val);
+}
+
 void Shader::setVec2(const char* name, glm::vec2 vec)
 {
 	glUniform2f(glGetUniformLocation(_program, name), vec.x, vec.y);

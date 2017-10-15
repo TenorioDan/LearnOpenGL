@@ -175,6 +175,9 @@
     <None Include="Shaders\Playground\cube_shader.vert">
       <Filter>Resource Files\Vertex Shaders</Filter>
     </None>
+    <None Include="Shaders\LearnOpenGL\Lighting\Materials\lamp_shader.frag" />
+    <None Include="Shaders\LearnOpenGL\Lighting\Materials\light_shader.frag" />
+    <None Include="Shaders\LearnOpenGL\Lighting\Materials\vertex_shader_1.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Shaders\LearnOpenGL\Transformations\fragment_shader_1.frag">

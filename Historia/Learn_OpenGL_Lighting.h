@@ -21,13 +21,13 @@ public:
 		stbi_set_flip_vertically_on_load(true);
 
 		_lightShader = new Shader();
-		_lightShader->CompileShader("Shaders/LearnOpenGL/Lighting/vertex_shader_1.vert", GL_VERTEX_SHADER);
-		_lightShader->CompileShader("Shaders/LearnOpenGL/Lighting/light_shader.frag", GL_FRAGMENT_SHADER);
+		_lightShader->CompileShader("Shaders/LearnOpenGL/Lighting/Materials/vertex_shader_1.vert", GL_VERTEX_SHADER);
+		_lightShader->CompileShader("Shaders/LearnOpenGL/Lighting/Materials/light_shader.frag", GL_FRAGMENT_SHADER);
 		_lightShader->LinkShaders();
 
 		_lampShader = new Shader();
-		_lampShader->CompileShader("Shaders/LearnOpenGL/Lighting/vertex_shader_1.vert", GL_VERTEX_SHADER);
-		_lampShader->CompileShader("Shaders/LearnOpenGL/Lighting/lamp_shader.frag", GL_FRAGMENT_SHADER);
+		_lampShader->CompileShader("Shaders/LearnOpenGL/Lighting/Materials/vertex_shader_1.vert", GL_VERTEX_SHADER);
+		_lampShader->CompileShader("Shaders/LearnOpenGL/Lighting/Materials/lamp_shader.frag", GL_FRAGMENT_SHADER);
 		_lampShader->LinkShaders();
 
 		// vertex data containing vertex coordinates and normal values
@@ -126,13 +126,31 @@ public:
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUseProgram(_lightShader->Program());
 		
-		_lightPos = glm::vec3(sin(currentTime) * 2.5, 0.0f, cos(currentTime) * 2.5);
+		//_lightPos = glm::vec3(sin(currentTime) * 2.5, 0.0f, cos(currentTime) * 2.5);
+		//_model = glm::rotate(_model, -(float)currentTime, glm::vec3(0.0f, 1.0f, 0.0f));
 
-		_model = glm::rotate(_model, -(float)currentTime, glm::vec3(0.0f, 1.0f, 0.0f));
+		/*_lightColor.x = sin(currentTime * 2.0f);
+		_lightColor.y = sin(currentTime * 0.7f);
+		_lightColor.z = sin(currentTime * 1.3f);*/
+
+		glm::vec3 diffuseColor = _lightColor * glm::vec3(1.0f);
+		glm::vec3 ambientColor = diffuseColor * glm::vec3(1.0f);
 
 		_lightShader->setMat4("model", _model);
 		_lightShader->setMat4("view", _view);
 		_lightShader->setMat4("projection", _projection);
+
+		// material properties
+		_lightShader->setVec3("material.ambient", glm::vec3(0.0f, 0.1f, 0.06f));
+		_lightShader->setVec3("material.diffuse", glm::vec3(0.0f, 0.50980392f, 0.50980392f));
+		_lightShader->setVec3("material.specular", glm::vec3(0.50196078f, 0.50196078f, 0.50196078f));
+		_lightShader->setFloat("material.shininess", 32.0f);
+
+		// light properties
+		_lightShader->setVec3("light.ambient", ambientColor);
+		_lightShader->setVec3("light.diffuse", diffuseColor); // darken the light a bit to fit the scene
+		_lightShader->setVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+
 		_lightShader->setVec3("objectColor", _objectColor);
 		_lightShader->setVec3("lightColor", _lightColor);
 		_lightShader->setVec3("lightPos", _lightPos);
