@@ -110,7 +110,12 @@ GLuint Shader::Program()
 	return _program;
 }
 
-void Shader::setFloat(const char* name, float val)
+void Shader::setInt(const char* name, GLint val)
+{
+	glUniform1i(glGetUniformLocation(_program, name), val);
+}
+
+void Shader::setFloat(const char* name, GLfloat val)
 {
 	glUniform1f(glGetUniformLocation(_program, name), val);
 }

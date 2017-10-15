@@ -16,7 +16,8 @@ public:
 	void init();
 	void LinkShaders();
 
-	void setFloat(const char* name, float val);
+	void setInt(const char* name, GLint val);
+	void setFloat(const char* name, GLfloat val);
 	void setVec2(const char* name, glm::vec2 vec);
 	void setVec3(const char* name, glm::vec3 vec);
 	void setMat4(const char* name, glm::mat4 &mat);
