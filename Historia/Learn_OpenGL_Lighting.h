@@ -177,7 +177,10 @@ public:
 		_lightShader->setFloat("light.linear", 0.07f);
 		_lightShader->setFloat("light.quadratic", 0.017f);
 
-		_lightShader->setVec3("viewPos", _camera->position());
+		_lightShader->setVec3("light.position", _camera->position());
+		_lightShader->setVec3("light.direction", _camera->front());
+		_lightShader->setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
+		_lightShader->setFloat("light.outerCutOff", glm::cos(glm::radians(17.5f)));
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _diffuseMap);
