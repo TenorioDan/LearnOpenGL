@@ -180,6 +180,8 @@
     <None Include="Shaders\LearnOpenGL\Lighting\Materials\vertex_shader_1.vert" />
     <None Include="Shaders\LearnOpenGL\Lighting\LightCasters\light_shader.frag" />
     <None Include="Shaders\LearnOpenGL\Lighting\LightCasters\vertex_shader_1.vert" />
+    <None Include="Shaders\LearnOpenGL\Lighting\MultipleLights\light_shader.frag" />
+    <None Include="Shaders\LearnOpenGL\Lighting\MultipleLights\vertex_shader_1.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Shaders\LearnOpenGL\Transformations\fragment_shader_1.frag">

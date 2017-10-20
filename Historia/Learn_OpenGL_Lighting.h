@@ -22,8 +22,8 @@ public:
 		stbi_set_flip_vertically_on_load(true);
 
 		_lightShader = new Shader();
-		_lightShader->CompileShader("Shaders/LearnOpenGL/Lighting/LightCasters/vertex_shader_1.vert", GL_VERTEX_SHADER);
-		_lightShader->CompileShader("Shaders/LearnOpenGL/Lighting/LightCasters/light_shader.frag", GL_FRAGMENT_SHADER);
+		_lightShader->CompileShader("Shaders/LearnOpenGL/Lighting/MultipleLights/vertex_shader_1.vert", GL_VERTEX_SHADER);
+		_lightShader->CompileShader("Shaders/LearnOpenGL/Lighting/MultipleLights/light_shader.frag", GL_FRAGMENT_SHADER);
 		_lightShader->LinkShaders();
 
 		_lampShader = new Shader();
@@ -118,16 +118,21 @@ public:
 		_objectColor = glm::vec3(1.0f, 0.5f, 0.31f);
 		_lightPos = glm::vec3(1.2f, 1.0f, 2.0f);
 
-		cubePositions[0] = glm::vec3(0.0f, 0.0f, 0.0f);
-		cubePositions[1] = glm::vec3(2.0f, 5.0f, -15.0f);
-		cubePositions[2] = glm::vec3(-1.5f, -2.2f, -2.5f);
-		cubePositions[3] = glm::vec3(-3.8f, -2.0f, -12.3f);
-		cubePositions[4] = glm::vec3(2.4f, -0.4f, -3.5f);
-		cubePositions[5] = glm::vec3(-1.7f, 3.0f, -7.5f);
-		cubePositions[6] = glm::vec3(1.3f, -2.0f, -2.5f);
-		cubePositions[7] = glm::vec3(1.5f, 2.0f, -2.5f);
-		cubePositions[8] = glm::vec3(1.5f, 0.2f, -1.5f);
-		cubePositions[9] = glm::vec3(-1.3f, 1.0f, -1.5f);
+		_cubePositions[0] = glm::vec3(0.0f, 0.0f, 0.0f);
+		_cubePositions[1] = glm::vec3(2.0f, 5.0f, -15.0f);
+		_cubePositions[2] = glm::vec3(-1.5f, -2.2f, -2.5f);
+		_cubePositions[3] = glm::vec3(-3.8f, -2.0f, -12.3f);
+		_cubePositions[4] = glm::vec3(2.4f, -0.4f, -3.5f);
+		_cubePositions[5] = glm::vec3(-1.7f, 3.0f, -7.5f);
+		_cubePositions[6] = glm::vec3(1.3f, -2.0f, -2.5f);
+		_cubePositions[7] = glm::vec3(1.5f, 2.0f, -2.5f);
+		_cubePositions[8] = glm::vec3(1.5f, 0.2f, -1.5f);
+		_cubePositions[9] = glm::vec3(-1.3f, 1.0f, -1.5f);
+
+		_pointLightPositions[0] = glm::vec3(0.7f, 0.2f, 2.0f);
+		_pointLightPositions[1] = glm::vec3(2.3f, -3.3f, -4.0f);
+		_pointLightPositions[2] = glm::vec3(-4.0f, 2.0f, -12.0f);
+		_pointLightPositions[3] = glm::vec3(0.0f, 0.2f, -3.0f);
 	}
 
 	void update(double currentTime)
@@ -159,28 +164,52 @@ public:
 		//_lightShader->setMat4("model", _model);
 		_lightShader->setMat4("view", _view);
 		_lightShader->setMat4("projection", _projection);
+		_lightShader->setVec3("viewPos", _camera->position());
 
 		// material properties
 		_lightShader->setInt("material.diffuse", 0);
 		_lightShader->setInt("material.specular", 1);
 		_lightShader->setInt("material.emission", 2);
 		_lightShader->setFloat("material.shininess", 32.0f);
+		
+		// directional light
+		_lightShader->setVec3("dirLight.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
+		_lightShader->setVec3("dirLight.ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+		_lightShader->setVec3("dirLight.diffuse", glm::vec3(0.4f, 0.4f, 0.4f));
+		_lightShader->setVec3("dirLight.specular", glm::vec3(0.5f, 0.5f, 0.5f));
 
-		// light properties
-		_lightShader->setVec3("light.ambient", ambientColor);
-		_lightShader->setVec3("light.diffuse", diffuseColor); // darken the light a bit to fit the scene
-		_lightShader->setVec3("light.specular", glm::vec3(1.0f));
-		_lightShader->setVec3("light.position", _lightPos);
-		//_lightShader->setVec3("light.direction", glm::vec3(-1.0f, -0.3f, -0.5f));
-
-		_lightShader->setFloat("light.constant", 1.0f);
-		_lightShader->setFloat("light.linear", 0.07f);
-		_lightShader->setFloat("light.quadratic", 0.017f);
-
-		_lightShader->setVec3("light.position", _camera->position());
-		_lightShader->setVec3("light.direction", _camera->front());
-		_lightShader->setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
-		_lightShader->setFloat("light.outerCutOff", glm::cos(glm::radians(17.5f)));
+		// point light 1
+		_lightShader->setVec3("pointLights[0].position", _pointLightPositions[0]);
+		_lightShader->setVec3("pointLights[0].ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+		_lightShader->setVec3("pointLights[0].diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
+		_lightShader->setVec3("pointLights[0].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		_lightShader->setFloat("pointLights[0].constant", 1.0f);
+		_lightShader->setFloat("pointLights[0].linear", 0.09);
+		_lightShader->setFloat("pointLights[0].quadratic", 0.032);
+		// point light 2
+		_lightShader->setVec3("pointLights[1].position", _pointLightPositions[1]);
+		_lightShader->setVec3("pointLights[1].ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+		_lightShader->setVec3("pointLights[1].diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
+		_lightShader->setVec3("pointLights[1].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		_lightShader->setFloat("pointLights[1].constant", 1.0f);
+		_lightShader->setFloat("pointLights[1].linear", 0.09);
+		_lightShader->setFloat("pointLights[1].quadratic", 0.032);
+		// point light 3
+		_lightShader->setVec3("pointLights[2].position", _pointLightPositions[2]);
+		_lightShader->setVec3("pointLights[2].ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+		_lightShader->setVec3("pointLights[2].diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
+		_lightShader->setVec3("pointLights[2].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		_lightShader->setFloat("pointLights[2].constant", 1.0f);
+		_lightShader->setFloat("pointLights[2].linear", 0.09);
+		_lightShader->setFloat("pointLights[2].quadratic", 0.032);
+		// point light 4
+		_lightShader->setVec3("pointLights[3].position", _pointLightPositions[3]);
+		_lightShader->setVec3("pointLights[3].ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+		_lightShader->setVec3("pointLights[3].diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
+		_lightShader->setVec3("pointLights[3].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		_lightShader->setFloat("pointLights[3].constant", 1.0f);
+		_lightShader->setFloat("pointLights[3].linear", 0.09);
+		_lightShader->setFloat("pointLights[3].quadratic", 0.032);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _diffuseMap);
@@ -194,7 +223,7 @@ public:
 		for (GLuint i = 0; i < 10; ++i)
 		{
 			_model = glm::mat4();
-			_model = glm::translate(_model, cubePositions[i]);
+			_model = glm::translate(_model, _cubePositions[i]);
 			GLfloat angle = 20.0f * i;
 			_model = glm::rotate(_model, glm::radians(angle), glm::vec3(1.0, 0.3f, 0.5f));
 			_lightShader->setMat4("model", _model);
@@ -203,18 +232,22 @@ public:
 
 		// Use the light shader object and set the uniforms
 		glUseProgram(_lampShader->Program());
-
-		_model = glm::mat4();
-		_model = glm::translate(_model, _lightPos);
-		_model = glm::scale(_model, glm::vec3(0.2f));
-
-		_lampShader->setMat4("model", _model);
 		_lampShader->setMat4("view", _view);
 		_lampShader->setMat4("projection", _projection);
 		_lampShader->setVec3("lightColor", _lightColor);
 
-		glBindVertexArray(_lightVAO);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		for (int i = 0; i < 4; ++i)
+		{
+			_model = glm::mat4();
+			_model = glm::translate(_model, _pointLightPositions[i]);
+			_model = glm::scale(_model, glm::vec3(0.2f));
+
+			_lampShader->setMat4("model", _model);
+
+
+			glBindVertexArray(_lightVAO);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}		
 	}
 
 	GLuint loadTexture(const char* path)
@@ -263,5 +296,6 @@ private:
 	Camera* _camera;
 	glm::mat4 _model, _view, _projection;
 	glm::vec3 _lightPos, _lightColor, _objectColor;
-	glm::vec3 cubePositions[10];
+	glm::vec3 _cubePositions[10];
+	glm::vec3 _pointLightPositions[4];
 };

@@ -190,6 +190,8 @@
     <None Include="Shaders\LearnOpenGL\Lighting\Materials\lamp_shader.frag" />
     <None Include="Shaders\LearnOpenGL\Lighting\Materials\light_shader.frag" />
     <None Include="Shaders\LearnOpenGL\Lighting\Materials\vertex_shader_1.vert" />
+    <None Include="Shaders\LearnOpenGL\Lighting\MultipleLights\light_shader.frag" />
+    <None Include="Shaders\LearnOpenGL\Lighting\MultipleLights\vertex_shader_1.vert" />
     <None Include="Shaders\Playground\cube_shader.vert" />
     <None Include="Shaders\Chapter_5\fragment_shader_1.frag" />
     <None Include="Shaders\Chapter_5\fragment_shader_2.frag" />
