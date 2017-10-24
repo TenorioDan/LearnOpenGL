@@ -21,6 +21,7 @@ Scene::Scene()
 void Scene::update(double currentTime)
 {
 	_camera.update(currentTime);
+	_lightShader.setVec3("viewPos", _camera.position());
 
 	for (int i = 0; i < _gameObjects.size(); ++i)
 	{
@@ -30,11 +31,12 @@ void Scene::update(double currentTime)
 
 void Scene::render()
 {
+	glUseProgram(_lightShader.Program());
 	glm::mat4 PVMatrix = _projection * _camera.getViewMatrix();
 
 	for (int i = 0; i < _gameObjects.size(); ++i)
 	{
-		_gameObjects.at(i)->render(PVMatrix, _camera.position(), glm::vec3(1.2f, 1.0f, 2.0f), glm::vec3(1.0f, 1.0f, 1.0f), _lightShader);
+		_gameObjects.at(i)->render(PVMatrix, _lightShader);
 	}
 }
 

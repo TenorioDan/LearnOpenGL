@@ -16,6 +16,16 @@ class Playground : public Tutorial
 		_cubeScene.addGameObject(_cube1);
 		_cubeScene.addGameObject(_cube2);
 		_cubeScene.addGameObject(_cube3);
+
+		light1.position = glm::vec3(0.0f);
+		light1.ambient = glm::vec3(0.05f);
+		light1.diffuse = glm::vec3(0.8f);
+		light1.specular = glm::vec3(1.0f);
+		light1.constant = 1.0f;
+		light1.linear = 0.09f;
+		light1.quadratic = 0.032f;
+		
+		_cubeScene.addLight(light1);
 	}
 
 	void update(double currentTime)
@@ -48,4 +58,6 @@ private:
 	Cube* _cube1;
 	Cube* _cube2;
 	Cube* _cube3;
+
+	lights::PointLight light1;
 };

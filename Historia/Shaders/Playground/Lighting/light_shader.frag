@@ -41,7 +41,6 @@ uniform PointLight pointLights[MAX_LIGHTS];
 
 uniform vec3 viewPos;
 
-
 in vec3 FragPos;
 in vec3 Normal;
 in vec2 TexCoords;

@@ -89,14 +89,23 @@ void Cube::update(float currentTime)
 	GameObject::update(currentTime);
 }
 
-void Cube::render(glm::mat4 VPMatrix, glm::vec3 viewPos, glm::vec3 lightPos, glm::vec3 lightColor, Shader& lightShader)
+void Cube::render(glm::mat4 VPMatrix, Shader& lightShader)
 {
+	// TODO these values should only be set once for this object not every time render is called
+	lightShader.setInt("material.diffuse", 0);
+	lightShader.setInt("material.specular", 1);
+	lightShader.setInt("material.emission", 2);
+	lightShader.setFloat("material.shininess", 32.0f);
+
 	lightShader.setMat4("MVP", VPMatrix * _model);
 	lightShader.setMat4("model", _model);
-	lightShader.setVec3("objectColor", _color);
-	lightShader.setVec3("lightColor", lightColor);
-	lightShader.setVec3("lightPos", lightPos);
-	lightShader.setVec3("viewPos", viewPos);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, _diffuseMap);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, _specularMap);
+	/*glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, _emissionMap);*/
 
 	glBindVertexArray(_vao);
 	glDrawArrays(GL_TRIANGLES, 0, 36);

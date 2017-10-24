@@ -8,7 +8,7 @@ public:
 	static void init();
 
 	void update(float currentTime);
-	void render(glm::mat4 VPMatrix, glm::vec3 viewPos, glm::vec3 lightPos, glm::vec3 lightColor, Shader& lightShader);
+	void render(glm::mat4 VPMatrix, Shader& lightShader);
 	void translate(GLfloat x, GLfloat y, GLfloat z);
 
 private:
