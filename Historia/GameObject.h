@@ -17,7 +17,7 @@ public:
 		_deltaTime = _currentTime - _previousTime;
 	}
 
-	virtual void render(glm::mat4 VPMatrix, glm::vec3 viewPos, glm::vec3 lightPos, glm::vec3 lightColor) = 0;
+	virtual void render(glm::mat4 VPMatrix, glm::vec3 viewPos, glm::vec3 lightPos, glm::vec3 lightColor, Shader& lightShader) = 0;
 
 protected:
 	float _currentTime;

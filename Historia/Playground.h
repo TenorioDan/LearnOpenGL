@@ -2,21 +2,20 @@
 
 #include "Tutorial.h"
 #include "Cube.h"
-#include "Renderer.h"
+#include "Scene.h"
 
 class Playground : public Tutorial
 {
 	void init()
 	{
 		Cube::init();
-		renderer.init();
 		_cube1 = new Cube();
 		_cube2 = new Cube();
 		_cube3 = new Cube();
 
-		renderer.addObject(_cube1);
-		renderer.addObject(_cube2);
-		renderer.addObject(_cube3);
+		_cubeScene.addGameObject(_cube1);
+		_cubeScene.addGameObject(_cube2);
+		_cubeScene.addGameObject(_cube3);
 	}
 
 	void update(double currentTime)
@@ -25,7 +24,7 @@ class Playground : public Tutorial
 		_currentTime = currentTime;
 
 		Tutorial::update(currentTime);
-		renderer.update(currentTime);
+		_cubeScene.update(currentTime);
 
 		_cube1->translate(cos(currentTime) * 2.5 * _deltaTime, 0.0f, sin(currentTime) * 2.5 * _deltaTime);
 		_cube2->translate(sin(currentTime) * 2.5 * _deltaTime, cos(currentTime) * 2.5 * _deltaTime, 0.0f);
@@ -36,16 +35,16 @@ class Playground : public Tutorial
 	{
 		Tutorial::render(currentTime);
 
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		renderer.render();
+		_cubeScene.render();
 	}
 
 private:
 	GLfloat _currentTime;
 	GLfloat _deltaTime;
 
-	Renderer renderer;
+	Scene _cubeScene;
 	Cube* _cube1;
 	Cube* _cube2;
 	Cube* _cube3;

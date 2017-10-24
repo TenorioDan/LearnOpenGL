@@ -5,7 +5,6 @@
 #include "Super_Bible_Chapter_5_Textures.h"
 #include "Learn_OpenGL_Transformations.h"
 #include "Learn_OpenGL_Lighting.h"
-
 #include "InputManager.h"
 
 #include <iostream>
@@ -168,8 +167,8 @@ int main(int argc, char* args[])
 		//currentTutorial = new Super_Bible_Chapter_5();
 		//currentTutorial = new Super_Bible_Chapter_5_Textures();
 		//currentTutorial = new Learn_Open_GL_Transformations();
-		currentTutorial = new Learn_OpenGL_Lighting();
-		//currentTutorial = new Playground();
+		//currentTutorial = new Learn_OpenGL_Lighting();
+		currentTutorial = new Playground();
 		currentTutorial->init();
 
 		while (!quit)

@@ -111,7 +111,7 @@ public:
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		success = loadTexture("media/textures/container.jpg", GL_RGB);
+		success = loadTexture("media/textures/container.jpg");
 
 		glBindTexture(GL_TEXTURE_2D, _textures[1]);
 
@@ -122,30 +122,46 @@ public:
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		success = loadTexture("media/textures/awesomeface.png", GL_RGBA);
+		success = loadTexture("media/textures/awesomeface.png");
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 
-	bool loadTexture(const char* path, GLint colorFormat)
+	GLuint loadTexture(const char* path)
 	{
-		bool success = true;
+		GLuint textureID;
+		glGenTextures(1, &textureID);
 
-		GLint width, height, nrChannels;
-		unsigned char* data = stbi_load(path, &width, &height, &nrChannels, 0);
+		int width, height, nrComponents;
+		unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
 
 		if (data)
 		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, colorFormat, GL_UNSIGNED_BYTE, data);
+			GLenum format;
+			if (nrComponents == 1)
+				format = GL_RED;
+			else if (nrComponents == 3)
+				format = GL_RGB;
+			else if (nrComponents == 4)
+				format = GL_RGBA;
+
+			glBindTexture(GL_TEXTURE_2D, textureID);
+			glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 			glGenerateMipmap(GL_TEXTURE_2D);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			stbi_image_free(data);
 		}
 		else
 		{
-			printf("Failed to load texture: %s\n", path);
-			success = false;
+			printf("Texture failed to load at path: %s\n", path);
+			stbi_image_free(data);
 		}
 
-		stbi_image_free(data);
-		return success;
+		return textureID;
 	}
 
 	void update()

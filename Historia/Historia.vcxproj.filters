@@ -39,6 +39,9 @@
     <ClCompile Include="Cube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Super_Bible_Chapter_1.h">
@@ -86,10 +89,13 @@
     <ClInclude Include="Learn_OpenGL_Lighting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
+    <ClInclude Include="Playground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Playground.h">
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -182,6 +188,8 @@
     <None Include="Shaders\LearnOpenGL\Lighting\LightCasters\vertex_shader_1.vert" />
     <None Include="Shaders\LearnOpenGL\Lighting\MultipleLights\light_shader.frag" />
     <None Include="Shaders\LearnOpenGL\Lighting\MultipleLights\vertex_shader_1.vert" />
+    <None Include="Shaders\Playground\Lighting\light_shader.frag" />
+    <None Include="Shaders\Playground\Lighting\vertex_shader_1.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Shaders\LearnOpenGL\Transformations\fragment_shader_1.frag">

@@ -8,13 +8,16 @@ public:
 	static void init();
 
 	void update(float currentTime);
-	void render(glm::mat4 VPMatrix, glm::vec3 viewPos, glm::vec3 lightPos, glm::vec3 lightColor);
+	void render(glm::mat4 VPMatrix, glm::vec3 viewPos, glm::vec3 lightPos, glm::vec3 lightColor, Shader& lightShader);
 	void translate(GLfloat x, GLfloat y, GLfloat z);
 
 private:
 	static GLuint _vbo;
 	static GLuint _vao;
 	static Shader* _lightShader;
+	
+	// lighting textures
+	static GLuint _diffuseMap, _specularMap;
 
 	glm::vec3 _position = glm::vec3();
 	glm::vec3 _color = glm::vec3(0.64f, 0.64f, 0.64f);
