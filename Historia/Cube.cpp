@@ -1,13 +1,15 @@
 #include "Cube.h"
-#include "stb_image.h"
 
 GLuint Cube::_vbo;
 GLuint Cube::_vao;
-GLuint Cube::_diffuseMap;
-GLuint Cube::_specularMap;
 Shader* Cube::_lightShader;
 
 GLuint loadTexture(const char* path);
+
+Cube::Cube()
+{
+	_model = glm::mat4();
+}
 
 void Cube::init()
 {
@@ -72,11 +74,6 @@ void Cube::init()
 
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(2);
-
-	_diffuseMap = loadTexture("media/textures/container2.png");
-	_specularMap = loadTexture("media/textures/container2_specular.png");
-	//_emissionMap = loadTexture("media/textures/matrix.jpg");
-
 }
 
 void Cube::translate(GLfloat x, GLfloat y, GLfloat z)
@@ -104,48 +101,25 @@ void Cube::render(glm::mat4 VPMatrix, Shader& lightShader)
 	glBindTexture(GL_TEXTURE_2D, _diffuseMap);
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, _specularMap);
-	/*glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, _emissionMap);*/
 
+	if (_emissionMap > 0)
+	{
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, _emissionMap);
+	}
+	
 	glBindVertexArray(_vao);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
-// TODO move this somewhere that makes sense
-GLuint loadTexture(const char* path)
+void Cube::addTexture(const char* diffusePath, const char* specularPath, const char* emissionPath)
 {
-	GLuint textureID;
-	glGenTextures(1, &textureID);
+	 // Diffuse map and specular map are require for textures
+	_diffuseMap = loadTexture(diffusePath);
+	_specularMap = loadTexture(specularPath);
 
-	int width, height, nrComponents;
-	unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
-
-	if (data)
+	if (emissionPath != NULL)
 	{
-		GLenum format;
-		if (nrComponents == 1)
-			format = GL_RED;
-		else if (nrComponents == 3)
-			format = GL_RGB;
-		else if (nrComponents == 4)
-			format = GL_RGBA;
-
-		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		stbi_image_free(data);
+		_emissionMap = loadTexture(emissionPath);
 	}
-	else
-	{
-		printf("Texture failed to load at path: %s\n", path);
-		stbi_image_free(data);
-	}
-
-	return textureID;
 }

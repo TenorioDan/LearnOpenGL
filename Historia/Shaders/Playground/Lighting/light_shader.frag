@@ -38,6 +38,7 @@ uniform DirectionalLight dirLight;
 // Point Lights
 #define MAX_LIGHTS 100
 uniform PointLight pointLights[MAX_LIGHTS];
+uniform int lightCount;
 
 uniform vec3 viewPos;
 
@@ -60,11 +61,14 @@ void main()
 	vec3 result = CalculateDirectionalLight(dirLight, norm, viewDir);
 
 	// Phase 2: Point lights
-	for (int i = 0; i < MAX_LIGHTS; ++i)
+	for (int i = 0; i < lightCount; ++i)
 		result += CalculatePointLight(pointLights[i], norm, FragPos, viewDir);
 
 	// phase 3: Spot Lights
 	// result += CalculateSpotLights(spotLights[i], norm, FragPos, viewDir);
+
+	vec3 emission = texture(material.emission, TexCoords).rgb;
+	result += emission;
 
 	FragColor = vec4(result, 1.0);
 } 
