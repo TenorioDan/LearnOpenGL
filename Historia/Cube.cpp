@@ -97,6 +97,9 @@ void Cube::render(glm::mat4 VPMatrix, Shader& lightShader)
 	lightShader.setMat4("MVP", VPMatrix * _model);
 	lightShader.setMat4("model", _model);
 
+	lightShader.setFloat("angleSin", sin((_currentTime * 5 * _deltaTime) / 2));
+	lightShader.setFloat("angleCos", cos((_currentTime * 5 * _deltaTime) / 2));
+
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, _diffuseMap);
 	glActiveTexture(GL_TEXTURE1);

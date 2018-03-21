@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -22,32 +22,32 @@
     <ProjectGuid>{B1101904-BDE3-4EE3-9AAB-617FCB327D67}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Historia</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -71,11 +71,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\GameDev\TokeStudios\LearnOpenGL\include;D:\GameDev\TokeStudios\LearnOpenGL\SDL2-devel-2.0.5-VC\SDL2-2.0.5\include;D:\GameDev\TokeStudios\LearnOpenGL\SDL2_image-devel-2.0.1-VC\SDL2_image-2.0.1\include;D:\GameDev\TokeStudios\LearnOpenGL\glew-2.0.0\include;D:\GameDev\TokeStudios\LearnOpenGL\DevIL Windows SDK\include;D:\GameDev\TokeStudios\LearnOpenGL\sb7headers;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\GameDev\TokeStudios\LearnOpenGL\glew-2.0.0\lib\Release\Win32;D:\GameDev\TokeStudios\LearnOpenGL\SDL2-devel-2.0.5-VC\SDL2-2.0.5\lib\x86;D:\GameDev\TokeStudios\LearnOpenGL\SDL2_image-devel-2.0.1-VC\SDL2_image-2.0.1\lib\x86;D:\GameDev\TokeStudios\LearnOpenGL\DevIL Windows SDK\lib\x86\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\Programming\GameDev\LearnOpenGLGit\include;D:\GameDev\TokeStudios\LearnOpenGL\include;D:\GameDev\TokeStudios\LearnOpenGL\SDL2-devel-2.0.5-VC\SDL2-2.0.5\include;D:\GameDev\TokeStudios\LearnOpenGL\SDL2_image-devel-2.0.1-VC\SDL2_image-2.0.1\include;D:\GameDev\TokeStudios\LearnOpenGL\glew-2.0.0\include;D:\GameDev\TokeStudios\LearnOpenGL\DevIL Windows SDK\include;D:\GameDev\TokeStudios\LearnOpenGL\sb7headers;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Programming\GameDev\LearnOpenGLGit\lib;D:\GameDev\TokeStudios\LearnOpenGL\glew-2.0.0\lib\Release\Win32;D:\GameDev\TokeStudios\LearnOpenGL\SDL2-devel-2.0.5-VC\SDL2-2.0.5\lib\x86;D:\GameDev\TokeStudios\LearnOpenGL\SDL2_image-devel-2.0.1-VC\SDL2_image-2.0.1\lib\x86;D:\GameDev\TokeStudios\LearnOpenGL\DevIL Windows SDK\lib\x86\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>F:\Programming\GameDev\LearnOpenGLGit\include;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Programming\GameDev\LearnOpenGLGit\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -112,8 +114,9 @@
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>glew32.lib;OpenGL32.lib;SDL2.lib;SDL2main.lib;DevIL.lib;ILU.lib;ILUT.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -170,6 +173,7 @@
     <ClInclude Include="Learn_OpenGL_Lighting.h" />
     <ClInclude Include="GameObjects.h" />
     <ClInclude Include="Playground.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Super_Bible_Chapter_5_Textures.h" />
@@ -223,6 +227,9 @@
     <None Include="Shaders\LearnOpenGL\vertex_shader_texture_1.vert" />
     <None Include="Shaders\Playground\Lighting\light_shader.frag" />
     <None Include="Shaders\Playground\Lighting\vertex_shader_1.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Historia.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

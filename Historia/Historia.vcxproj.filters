@@ -98,6 +98,9 @@
     <ClInclude Include="GameObjects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\intro_pipeline\fragment_shader_1.frag">
@@ -201,5 +204,10 @@
     <Text Include="Shaders\LearnOpenGL\Transformations\vertex_shader_1.vert">
       <Filter>Resource Files\Vertex Shaders</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Historia.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
