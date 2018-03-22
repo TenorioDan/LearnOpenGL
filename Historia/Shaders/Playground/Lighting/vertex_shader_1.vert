@@ -17,9 +17,9 @@ vec4 quaternionMultiplication(vec4 quat1, vec4 quat2);
 
 void main(void)
 {
-	//vec3 unitY = vec3(0.0, 1.0, 0.0);
+	vec4 rotVector = vec4(0.0, 1.0, 0.0, 1.0);
 	vec4 posQuaternion = vec4(aPos, 0.0);
-	vec4 rotQuaternion = vec4(0.0, angleSin, 0.0, angleCos);
+	vec4 rotQuaternion = normalize(vec4(angleSin * rotVector.xyz, angleCos));
 	posQuaternion = quaternionMultiplication(vec4(-rotQuaternion.x, -rotQuaternion.y, -rotQuaternion.z, rotQuaternion.w), posQuaternion);
 	posQuaternion = quaternionMultiplication(posQuaternion, rotQuaternion);
 	gl_Position = MVP * vec4(posQuaternion.xyz, 1.0);
