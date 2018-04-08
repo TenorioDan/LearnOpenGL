@@ -11,6 +11,7 @@
 class GameObject
 {
 public:
+	
 	virtual void update(float currentTime)
 	{
 		_previousTime = _currentTime;

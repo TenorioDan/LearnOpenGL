@@ -12,7 +12,11 @@ public:
 	void update(float currentTime);
 	void render(glm::mat4 VPMatrix, Shader& lightShader);
 	void translate(GLfloat x, GLfloat y, GLfloat z);
+	void translate(glm::vec3 transalation);
+	void setPosition(glm::vec3 position);
 	void addTexture(const char* diffusePath, const char* specularPath, const char* emissionPath);
+
+	glm::vec3 getPosition();
 
 private:
 	static GLuint _vbo;

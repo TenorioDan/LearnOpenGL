@@ -3,9 +3,16 @@
 #include "Tutorial.h"
 #include "Cube.h"
 #include "Scene.h"
+#include <iostream>
 
 class Playground : public Tutorial
 {
+	bool translating = false;
+	glm::vec3 startPosition;
+	glm::vec3 endPosition;
+	double startTime;
+	double interpolateTime = 5.0;
+	float startDirection = 1.0;
 	void init()
 	{
 		Cube::init();
@@ -47,6 +54,31 @@ class Playground : public Tutorial
 
 		Tutorial::update(currentTime);
 		_cubeScene.update(currentTime);
+		
+		if (!translating)
+		{
+			translating = true;
+			startTime = currentTime;
+			startPosition = _cube1->getPosition();
+			endPosition = _cube1->getPosition() + (startDirection * glm::vec3(10.f, 0.f, 0.f));
+			startDirection *= -1;
+		} 
+		else
+		{
+			
+			float delta = currentTime / (startTime + interpolateTime);
+
+			if (delta < 1) {
+				glm::vec3 newPosition = (1 - delta) * startPosition + delta * endPosition;
+				std::cout << newPosition.x << " " << _cube1->getPosition().x << std::endl;
+				_cube1->setPosition(newPosition);
+				//std::cout << newPosition.x << std::endl;
+			}
+			else 
+			{
+				translating = false;
+			}
+		}
 
 		//_cube1->translate(cos(currentTime) * 2.5 * _deltaTime, 0.0f, sin(currentTime) * 2.5 * _deltaTime);
 		//_cube2->translate(sin(currentTime) * 2.5 * _deltaTime, cos(currentTime) * 2.5 * _deltaTime, 0.0f);

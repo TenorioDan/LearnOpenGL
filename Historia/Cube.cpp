@@ -79,6 +79,24 @@ void Cube::init()
 void Cube::translate(GLfloat x, GLfloat y, GLfloat z)
 {
 	_model = glm::translate(_model, glm::vec3(x, y, z));
+	_position += glm::vec3(x, y, z);
+}
+
+void Cube::translate(glm::vec3 translation)
+{
+	_model = glm::translate(_model, translation);
+	_position += translation;
+}
+
+void Cube::setPosition(glm::vec3 position)
+{
+	_model = glm::translate(_model, position - this->_position);
+	this->_position = position;
+}
+
+glm::vec3 Cube::getPosition()
+{
+	return this->_position;
 }
 
 void Cube::update(float currentTime)
